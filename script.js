@@ -1,4 +1,4 @@
-// Smooth scroll for nav links + close mobile menu
+// smooth scroll
 const navCollapseEl = document.getElementById('navMenu');
 const bsCollapse = navCollapseEl ? new bootstrap.Collapse(navCollapseEl, { toggle: false }) : null;
 
@@ -16,7 +16,7 @@ document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
   });
 });
 
-// Highlight active nav link on scroll
+// highlight active nav 
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
 
@@ -37,7 +37,7 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// "Contact Me" button scrolls to contact section
+// contact button scroll
 const contactBtn = document.querySelector('.hero .btn-lilac');
 if (contactBtn) {
   contactBtn.addEventListener('click', () => {
@@ -45,7 +45,7 @@ if (contactBtn) {
   });
 }
 
-// Simple contact form feedback
+// contact form submission
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
@@ -55,7 +55,7 @@ if (contactForm) {
   });
 }
 
-// Image lightbox: populate modal with clicked image + caption
+// image modal
 const imgModal = document.getElementById('imgModal');
 if (imgModal) {
   imgModal.addEventListener('show.bs.modal', (event) => {
@@ -68,7 +68,7 @@ if (imgModal) {
   });
 }
 
-// ── Skills background: animated gradient orbs on canvas ──
+// skills background animation
 (function () {
   const canvas = document.getElementById('skillsCanvas');
   if (!canvas) return;
@@ -112,7 +112,7 @@ if (imgModal) {
   draw();
 })();
 
-// ── Skills sparkles ──
+// sparkles
 (function () {
   const container = document.getElementById('sparkleContainer');
   if (!container) return;
@@ -139,7 +139,7 @@ if (imgModal) {
   }
 })();
 
-// Hero image hover swap
+// hero image hover effect
 document.querySelectorAll('.hero-image').forEach(img => {
   const imgElement = img.querySelector('img');
   const defaultImg = img.getAttribute('data-default-img');
@@ -153,3 +153,69 @@ document.querySelectorAll('.hero-image').forEach(img => {
     imgElement.src = defaultImg;
   });
 });
+
+// loading screen
+(function () {
+  const screen = document.getElementById('loadingScreen');
+  const bar = document.getElementById('loadingBar');
+  if (!screen || !bar) return;
+
+  // prevent scrolling while loading
+  document.body.style.overflow = 'hidden';
+
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 18 + 5;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      bar.style.width = '100%';
+      setTimeout(() => {
+        screen.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 400);
+    }
+    bar.style.width = progress + '%';
+  }, 120);
+})();
+
+// typewriter effect
+const typedText = document.getElementById("typedText");
+
+if (typedText) {
+  const text = "Eula";
+  let index = 0;
+
+  // add blinking cursor element
+  const cursor = document.createElement('span');
+  cursor.className = 'typewriter-cursor';
+  cursor.textContent = '|';
+  typedText.parentNode.insertBefore(cursor, typedText.nextSibling);
+
+  function typeWriter() {
+    if (index < text.length) {
+      typedText.textContent += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, 150);
+    }
+    // cursor stays blinking after typing is done
+  }
+
+  typedText.textContent = "";
+  typeWriter();
+}
+
+// reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, {
+  threshold: 0.15
+});
+
+reveals.forEach(item => observer.observe(item));
